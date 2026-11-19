@@ -74,19 +74,17 @@ The project demonstrates the application of JavaScript modular development, unit
 
 ## Screenshots
 
-Screenshots will be added to `docs/screenshots/`.
-
 ### Game Setup
 
-<!-- Add screenshot: docs/screenshots/game-setup.png -->
+<p align="center"> <img src="./docs/screenshots/main-view.png" alt="Main view" /> <img src="./docs/screenshots/game-setup-0.png" alt="Game setup 0" /> <img src="./docs/screenshots/game-setup-1.png" alt="Game setup 1" /> <img src="./docs/screenshots/game-setup-2.png" alt="Game setup 2" /> <img src="./docs/screenshots/game-setup-3.png" alt="Game setup 3" /> </p>
 
 ### Gameplay
 
-<!-- Add screenshot: docs/screenshots/gameplay.png -->
+<p align="center"> <img src="./docs/screenshots/game-play-1.png" alt="Gameplay 1" /> <img src="./docs/screenshots/game-play-2.png" alt="Gameplay 2" /> <img src="./docs/screenshots/game-play-3.png" alt="Gameplay 3" /> </p>
 
 ### Game Result
 
-<!-- Add screenshot: docs/screenshots/game-result.png -->
+<p align="center"> <img src="./docs/screenshots/game-status.png" alt="Game result" /> </p>
 
 ## Live Demo : [Battleship Game – Live Demo](https://amalk.au/tdd-battleship-game/)
 
