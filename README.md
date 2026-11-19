@@ -1,149 +1,441 @@
 # Battleship Game
 
-## Live Project
-https://1amal.github.io/javaScriptTDD-BattleshipGame/
+A browser-based implementation of the classic Battleship game, developed using Test-Driven Development (TDD) with JavaScript.
+
+## Table of Contents
+
+- [Overview](#overview)
+
+- [Features](#features)
+
+- [Screenshots](#screenshots)
+
+- [Live Demo](#live-demo)
+
+- [Tech Stack](#tech-stack)
+
+- [Architecture](#architecture)
+
+- [Getting Started](#getting-started)
+
+  - [Prerequisites](#prerequisites)
+
+  - [Installation](#installation)
+
+- [Project Structure](#project-structure)
+
+- [Available Commands](#available-commands)
+
+- [Development Guidelines](#development-guidelines)
+
+- [Testing](#testing)
+
+- [Deployment](#deployment)
+
+- [Troubleshooting](#troubleshooting)
+
+- [Contributing](#contributing)
+
+- [License](#license)
+
+- [Acknowledgements](#acknowledgements)
+
+- [Contact](#contact)
+
+---
 
 ## Overview
 
-This project implements a classic Battleship game using JavaScript. The game includes several core components:
-- **Ship**: Represents the ships in the game.
-- **Gameboard**: Manages the placement of ships and tracking of attacks.
-- **Player**: Represents both human and computer players.
+Battleship is a browser-based implementation of the classic naval strategy game. The project was developed with an emphasis on Test-Driven Development (TDD), modular JavaScript architecture and separation of game logic from the user interface.
 
-The project is designed to test functionality through unit tests and manage game logic without relying on a graphical user interface (UI). The UI is crafted separately and interacts with the game logic via event listeners.
+The application implements the core game mechanics through dedicated components responsible for ships, gameboards and players. The user interface interacts with these components to facilitate gameplay against a computer-controlled opponent.
 
-## Components
+The project demonstrates the application of JavaScript modular development, unit testing, Webpack bundling and automated deployment workflows.
 
-### Ship
+## Features
 
-The `Ship` class represents a ship with the following properties and methods:
-- **Properties**:
-  - `length`: The length of the ship.
-  - `hits`: The number of times the ship has been hit.
-  - `sunk`: Whether the ship has been sunk.
-- **Methods**:
-  - `hit()`: Increases the number of hits on the ship.
-  - `isSunk()`: Returns whether the ship is sunk based on the number of hits and its length.
+- **Ship Management:** Represents ships, tracks hits and determines when ships are sunk.
 
-### Gameboard
+- **Gameboard Management:** Handles ship placement, attack processing and tracking of gameboard state.
 
-The `Gameboard` class handles ship placement and attack management:
-- **Methods**:
-  - `placeShip(coordinate, ship)`: Places a ship on the gameboard at specified coordinates.
-  - `receiveAttack(coordinate)`: Processes an attack at specified coordinates, updates the ship's hit status, and records missed attacks.
-  - `allShipsSunk()`: Checks if all ships on the gameboard have been sunk.
+- **Player Management:** Supports human and computer-controlled players.
 
-### Player
+- **Computer Opponent:** Implements computer-controlled attacks using random coordinates while avoiding previously attacked positions.
 
-The `Player` class manages individual players:
-- **Types**:
-  - **Human Player**: Represents a real player.
-  - **Computer Player**: Represents a computer-controlled player.
-- **Properties**:
-  - `gameboard`: The player's gameboard instance.
+- **Turn-Based Gameplay:** Players take turns attacking opposing gameboards.
+
+- **Win Detection:** Determines when all ships belonging to a player have been sunk.
+
+- **Test-Driven Development:** Uses Jest to test core game logic and component behaviour.
+
+- **Modular Architecture:** Separates game logic from UI implementation.
+
+- **Webpack Bundling:** Bundles JavaScript and CSS and generates the application HTML.
+
+## Screenshots
+
+Screenshots will be added to `docs/screenshots/`.
+
+### Game Setup
+
+<!-- Add screenshot: docs/screenshots/game-setup.png -->
+
+### Gameplay
+
+<!-- Add screenshot: docs/screenshots/gameplay.png -->
+
+### Game Result
+
+<!-- Add screenshot: docs/screenshots/game-result.png -->
+
+## Live Demo : [Battleship Game – Live Demo](https://amalk.au/tdd-battleship-game/)
+
+## Tech Stack
+
+| Category                 | Technology                                                   |
+| ------------------------ | ------------------------------------------------------------ |
+| Language                 | JavaScript (ES6+)                                            |
+| Frontend                 | HTML5, CSS3 and JavaScript                                   |
+| Bundler                  | Webpack 5                                                    |
+| HTML Generation          | html-webpack-plugin                                          |
+| CSS Processing           | css-loader and style-loader                                  |
+| Testing                  | Jest 29                                                      |
+| Test Environment         | jest-environment-jsdom                                       |
+| JavaScript Transpilation | Babel 7                                                      |
+| Test Integration         | babel-jest                                                   |
+| Code Quality             | ESLint                                                       |
+| Code Formatting          | Prettier                                                     |
+| Package Manager          | npm (existing configuration); pnpm preferred for development |
+| Deployment               | Git subtree and GitHub Pages workflow                        |
+
+## Architecture
+
+The application separates the core game logic from the user interface to support independent development and testing.
+
+### Core Components
+
+#### Ship
+
+Responsible for representing individual ships.
+
+- Tracks ship length.
+
+- Tracks the number of hits received.
+
+- Determines whether a ship has been sunk.
+
+#### Gameboard
+
+Responsible for managing a player's gameboard.
+
+- Handles ship placement.
+
+- Processes attacks.
+
+- Tracks attack outcomes.
+
+- Determines whether all ships have been sunk.
+
+#### Player
+
+Responsible for representing game participants.
+
+- Supports human players.
+
+- Supports computer-controlled players.
+
+- Maintains a player-specific gameboard.
+
+#### User Interface
+
+The UI interacts with the game logic through JavaScript event listeners and renders the game state in the browser.
+
+The interface provides the interaction layer for gameplay while the core game logic remains independent of the DOM.
 
 ### Game Flow
 
-1. **Setup**:
-   - Create instances of `Player` for each player (human and computer).
-   - Populate each player’s `Gameboard` with predetermined coordinates for ships.
+1.  Initialise the human player and computer opponent.
 
-2. **Gameplay**:
-   - Players take turns attacking the opponent’s `Gameboard`.
-   - The game continues until all ships of one player have been sunk.
+2.  Create and configure their respective gameboards.
 
-3. **Computer Player**:
-   - The computer makes random moves, ensuring no repeated coordinates.
+3.  Place ships on both gameboards.
 
-4. **User Interface**:
-   - The UI is crafted to display gameboards and handle player interactions.
-   - Event listeners manage the game turn by turn and render updates.
+4.  Players take turns attacking the opposing gameboard.
 
-## Testing
+5.  The computer selects attack coordinates without repeating previous attacks.
 
-- Unit tests are written to verify the public interface of each class:
-  - Test ship creation, hits, and sinking.
-  - Test gameboard ship placement, attack handling, and sunk status.
-  - Test player interaction with the gameboard.
+6.  Game state is updated after each attack.
 
-## Setup
+7.  The game ends when all ships belonging to one player have been sunk.
 
-1. **Clone the Repository**:
+## Getting Started
 
-   `git clone git@github.com:1Amal/javaScriptTDD-BattleshipGame.git`
+### Prerequisites
 
-## Initial Setup
+- [Node.js](https://nodejs.org/) installed.
 
-Install all dependencies at once:
-`npm install css-loader eslint webpack html-webpack-plugin prettier eslint-config-prettier --save-dev`
+- npm, included with Node.js.
 
-Install dependencies individually
-`npm install css-loader --save-dev`
-`npm install html-webpack-plugin --save-dev`
-`npm install html-webpack-plugin --save-dev`
-`npm install prettier --save-dev`
-`npm install eslint-config-prettier --save-dev`
-`npm install eslint --save-dev`
+- [pnpm](https://pnpm.io/) if using the preferred package manager.
 
-## Webpack
-This will install the file loader to correctly load images
-`npm install file-loader --save-dev`
+### Installation
 
-## Manual build
+1.  Clone the repository:
 
-`npm run build`
+    ```
+    git clone https://github.com/amalk-au/tdd-battleship-game.git
+    cd tdd-battleship-game
+    ```
 
-## Automatic build
+2.  Install dependencies.
 
-`npx webpack --watch`
+    Using pnpm:
 
-## Automatically deploy to Github Pages
+    ```
+    pnpm install
+    ```
 
-Step 1
-Remove the 'dist' directory from the project’s .gitignore file.
+    Alternatively, use npm to install dependencies from the existing lockfile:
 
-Step 2
-Make sure git knows about your subtree (the subfolder with your site).
+    ```
+    npm ci
+    ```
 
-`git add dist && git commit -m "Initial dist subtree commit"`
+3.  Run the test suite:
 
-Step 3
-Use subtree push to send it to the gh-pages branch on GitHub.
+    ```
+    pnpm test
+    ```
 
-`git subtree push --prefix dist origin gh-pages`
-Boom. If your folder isn’t called dist, then you’ll need to change that in each of the commands above.
+    Alternatively:
 
-By adding this to the packages.json (Already configured for this repo)
-You can simply push the commit to both the main branch and the gh-pages branch (Git Hub pages will be served from gh-pages branch)
-`"scripts": {"gh-pages": "git subtree push --prefix dist origin gh-pages && git push"}`
+    ```
+    npm test
+    ```
 
-`npm run gh-pages`
+4.  Build the application:
+
+    ```
+    pnpm build
+    ```
+
+    Alternatively:
+
+    ```
+    npm run build
+    ```
+
+The production bundle is generated in the `dist/` directory.
 
 ## Project Structure
 
-This template includes the following folders and files:
+```
+tdd-battleship-game/
+├── dist/                    # Bundled application output
+├── src/                     # Application source code
+├── docs/
+│   └── screenshots/          # Project screenshots
+├── .gitignore
+├── babel.config.js
+├── jest.config.js
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── README.md
+└── webpack.config.js
+```
 
-src: Contains the source code for your web application.
-components: Reusable UI components.
-mainStyleSheet.css: Stylesheet for the application, it is served from the mainJavaScript.js.
-assets: Static assets like images, fonts, etc.
-mainJavaScript.js: The main entry point for your JavaScript application.
-index.html: The main HTML template for your application.
-Additional folders can be added based on your project needs (e.g., utils, api).
-package.json: Manages project dependencies and scripts.
-webpack.config.js: Webpack configuration file for bundling JavaScript modules.
-.eslintrc.js: ESLint configuration file for linting rules.
-.prettierrc.js: Prettier configuration file for formatting rules.
-Note: The public folder is not strictly required but can be helpful during development with a development server.
+The `src/` directory contains the application's JavaScript modules, HTML template, styles and supporting files.
 
-ESLint: During development, consider running ESLint automatically on file changes to catch errors and style inconsistencies early on. You can integrate it with your development server or use a linting tool like ESLint CLI.
-Prettier: Prettier can be configured to format your code automatically on save or using a script. This ensures consistent code style throughout your project.
-Building for Production
-The specific steps for building a production-ready version of your application may vary depending on your chosen tools and hosting platform. Generally, you'll want to:
+The `dist/` directory contains the bundled application output generated by Webpack.
 
-Run a build script (often defined in package.json) to:
-Bundle JavaScript modules using Webpack.
-Minify the code (optional) for smaller file sizes.
-Optimize assets (optional) for faster loading.
-Follow the deployment instructions for your chosen hosting platform.
-Remember: This is a comprehensive template. Feel free to customize it further based on your specific needs! Consider adding additional linters or formatters depending on your preferences.
+## Available Commands
+
+The following commands are defined in `package.json`.
+
+| Command         | Description                                                                       |
+| --------------- | --------------------------------------------------------------------------------- |
+| `pnpm test`     | Run the Jest test suite.                                                          |
+| `pnpm build`    | Build the application using Webpack.                                              |
+| `pnpm gh-pages` | Push the `dist` subtree to the `gh-pages` branch and push the current Git branch. |
+
+Equivalent npm commands:
+
+| Command            | Description                                           |
+| ------------------ | ----------------------------------------------------- |
+| `npm test`         | Run the Jest test suite.                              |
+| `npm run build`    | Build the application using Webpack.                  |
+| `npm run gh-pages` | Execute the configured Git subtree deployment script. |
+
+### Development Watch Mode
+
+Webpack can be run in watch mode to rebuild the application when source files change:
+
+```
+npx webpack --watch
+```
+
+This rebuilds the application as changes are detected.
+
+## Development Guidelines
+
+This project follows a Test-Driven Development approach.
+
+1.  Write a test that defines the expected behaviour.
+
+2.  Implement the minimum code required to satisfy the test.
+
+3.  Run the test suite to verify the implementation.
+
+4.  Refactor while keeping the tests passing.
+
+5.  Repeat the process for additional functionality.
+
+### Development Workflow
+
+1.  Create a feature branch.
+
+2.  Implement changes following the existing modular architecture.
+
+3.  Write or update tests for the changes.
+
+4.  Run the test suite.
+
+5.  Build the application to verify bundling.
+
+6.  Commit the changes.
+
+Keep game logic independent of the user interface wherever practical to maintain testability and separation of concerns.
+
+## Testing
+
+Jest is used to test the core game components.
+
+The test suite covers the public interfaces and behaviour of the application's game logic.
+
+Areas of testing include:
+
+- Ship creation, hit tracking and sinking behaviour.
+
+- Gameboard ship placement and attack handling.
+
+- Gameboard state and ship-sinking detection.
+
+- Player interaction with gameboards.
+
+- Computer player behaviour.
+
+### Running Tests
+
+Run the test suite:
+
+```
+pnpm test
+```
+
+Alternatively:
+
+```
+npm test
+```
+
+Jest is configured to use `jest-environment-jsdom` and a CSS module mapping to handle CSS imports during testing.
+
+## Deployment
+
+The application is deployed as a static web application.
+
+**Live URL:** [https://amalk.au/tdd-battleship-game/](https://amalk.au/tdd-battleship-game/)
+
+**Portfolio:** [https://amalk.au](https://amalk.au)
+
+### Build
+
+Generate the application bundle:
+
+```
+pnpm build
+```
+
+The generated files are placed in the `dist/` directory.
+
+### GitHub Pages Deployment
+
+The repository includes a deployment script that uses Git subtree to publish the `dist/` directory to the `gh-pages` branch.
+
+The configured script is:
+
+```
+git subtree push --prefix dist origin gh-pages && git push
+```
+
+Run the configured deployment command:
+
+```
+pnpm gh-pages
+```
+
+Alternatively:
+
+```
+npm run gh-pages
+```
+
+The deployment workflow assumes that the `dist/` directory is available and that the repository's Git remote and branch configuration support the subtree deployment process.
+
+The application is hosted under a subdirectory of the portfolio domain. Deployment configuration and generated asset paths must therefore remain compatible with the `/tdd-battleship-game/` path.
+
+## Troubleshooting
+
+| Issue                                            | Solution                                                                         |
+| ------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Dependency installation fails                    | Verify that Node.js and npm or pnpm are installed correctly.                     |
+| Tests fail                                       | Review the failing test output and verify the corresponding game logic.          |
+| CSS imports fail during testing                  | Verify Jest's CSS module mapping and `src/styleMock.js`.                         |
+| Webpack build fails                              | Check the source modules, dependencies and Webpack configuration.                |
+| Deployment fails                                 | Verify the Git remote, `dist/` directory, subtree configuration and permissions. |
+| Application assets fail to load after deployment | Verify the build configuration and asset paths for the deployed subdirectory.    |
+
+## Contributing
+
+Contributions, improvements and bug fixes are welcome.
+
+1.  Fork the repository.
+
+2.  Create a feature branch.
+
+3.  Implement your changes.
+
+4.  Add or update tests.
+
+5.  Run the test suite and build.
+
+6.  Commit your changes.
+
+7.  Open a pull request.
+
+For significant changes, consider opening an issue before submitting a pull request.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 (GPL-3.0).
+
+See the [LICENSE](LICENSE) file for the full licence text.
+
+## Acknowledgements
+
+- [The Odin Project](https://www.theodinproject.com/) — for the web development curriculum and learning resources that inspired the development of this project.
+
+## Contact
+
+- **Author:** Amal K.
+
+- **GitHub:** [@amalk-au](https://github.com/amalk-au)
+
+- **Portfolio:** [amalk.au](https://amalk.au)
+
+- **Issues:** [GitHub Issues](https://github.com/amalk-au/tdd-battleship-game/issues)
+
+---
+
+Developed by amalk-au
